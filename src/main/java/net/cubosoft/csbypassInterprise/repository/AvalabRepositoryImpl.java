@@ -68,7 +68,7 @@ public class AvalabRepositoryImpl implements AvalabRepository {
 	        if(data!=null) {
 	            List<ReferenciasDTO> referencias = new ArrayList<>();
 	            for (Object[] row : data) {
-	                Integer grupo = row[7] != null ? ((Byte) row[7]).intValue() : null;
+	                Integer grupo = row[7] != null ? ((Short) row[7]).intValue() : null;
 	                Integer row5Value = row[5] != null ? ((BigDecimal) row[5]).intValue() : null;
 
 	                ReferenciasDTO referencia = new ReferenciasDTO(
@@ -108,7 +108,7 @@ public class AvalabRepositoryImpl implements AvalabRepository {
 			 if(data!=null) {
 				  List<ReferenciasDTO> referencias = new ArrayList<>();
 			        for (Object[] row : data) {
-		                   Integer grupo = row[7] != null ? ((Byte) row[7]).intValue() : null;
+		                   Integer grupo = row[7] != null ? ((Short) row[7]).intValue() : null;
 
 			           ReferenciasDTO referencia = new ReferenciasDTO(
 			            	(String) row[0], (String) row[1],(String) row[2],(String) row[3],((BigDecimal) row[4]).intValue(),((BigDecimal) row[5]).intValue(),(String) row[6],grupo);			          
@@ -145,7 +145,7 @@ public class AvalabRepositoryImpl implements AvalabRepository {
 			 if(data!=null) {
 				 List<ReferenciasDTO> referencias = new ArrayList<>();
 			        for (Object[] row : data) {
-		                   Integer grupo = row[7] != null ? ((Byte) row[7]).intValue() : null;
+		                   Integer grupo = row[7] != null ? ((Short) row[7]).intValue() : null;
 
 			            ReferenciasDTO referencia = new ReferenciasDTO(
 				            	(String) row[0], (String) row[1],(String) row[2],(String) row[3],((BigDecimal) row[4]).intValue(),((BigDecimal) row[5]).intValue(),(String) row[6],grupo);			          
@@ -188,7 +188,7 @@ public class AvalabRepositoryImpl implements AvalabRepository {
 
 		        List<ReferenciasDTO> referencias = new ArrayList<>();
 		        for (Object[] row : data) {
-		            Integer grupo = row[7] != null ? ((Byte) row[7]).intValue() : null;
+		            Integer grupo = row[7] != null ? ((Short) row[7]).intValue() : null;
 		            ReferenciasDTO referencia = new ReferenciasDTO(
 		                (String) row[0], (String) row[1],(String) row[2],(String) row[3],((BigDecimal) row[4]).intValue(),((BigDecimal) row[5]).intValue(),(String) row[6],grupo);                  
 		            referencias.add(referencia);
@@ -533,7 +533,7 @@ public Object sendJson(Object jsonEnvio_Oreden_Completa) {
 		                
 		            }
 		        } else {
-		            System.err.println("Entro al else pilas en error");
+		            System.err.println("Entro al else pilas en errorAQUI");
 		            return null;
 		        }
 		    } catch (Exception e) {

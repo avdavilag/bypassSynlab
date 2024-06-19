@@ -541,7 +541,11 @@ public class webService {
 		 						        		             parametroJson.put("edadminima", JSONObject.NULL);
 		 						        		             parametroJson.put("edadmaxima", JSONObject.NULL);
 		 						        		             parametroJson.put("PanicoMinimo",JSONObject.NULL);
-		 						        		             parametroJson.put("PanicoMaximo", JSONObject.NULL);					        		             
+		 						        		             parametroJson.put("PanicoMaximo", JSONObject.NULL);	
+		 						        		            parametroJson.put("exacodigo",parametro.getCodigoParametro());
+		 						        		            parametroJson.put("descripcion",parametro.getDescripcionParametro());
+		 						        		           //parametroJson.put("descripcion", analisis.getDescripcionAnalisis());	
+		 						        		            System.out.println("Nombre del análisis: " + tipoAnalisis.getDescripcionTipoAnalisis());
 		 						        		             String date_send_json = parametro.getResultado().getFechaModificacionResultado();
 		 						        		             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");			        		             
 		 						        		             java.util.Date utilDate = null;
@@ -1053,26 +1057,30 @@ public class webService {
 				 	   	   						      				 	   	   						      				 	   	   						    
 				 	   	   						  OrdenProgressDTO Progresion= avalabService.check_Res_P_Validación(list_orden.get(j).getNro_Orden());
 					 					        	    System.err.println("ordnumero2: "+ordnumero2);
+					 					        	   System.err.println("Progresion: "+Progresion.getCompletados());
 					 					        	   System.err.println("-------list_orden.get(j).getNro_Orden()------------: "+list_orden.get(j).getNro_Orden());					 					        	
 					 					        	   if(Progresion.getCompletados()<100) {
+					 					        		   System.out.println("Entra al ifffff");
 					   	   	   				                 JSONObject results_flag = new JSONObject();
 					   	   	   						            JSONObject result_doc = new JSONObject();
-					   	   	   						            result_doc.put("doc","Resultados Pendientes de validación");
-					   	   	   						            result_doc.put("orden_synlab", list_orden.get(j).getNro_Orden());
-					   	   	   						            result_doc.put("year_orden", list_orden.get(j).getNro_ext() != null ? list_orden.get(j).getNro_ext() : JSONObject.NULL);
-					   	   	   						   			result_doc.put("hc", getCedula.get(0).getId_pac());
-					   	   	   						   			result_doc.put("observaciones", list_orden.get(j).getObs_ext() !=null ? list_orden.get(j).getObs_ext(): JSONObject.NULL);		   	   	   						            
-					   	   	   						            results_flag.put("results",result_doc);
-					   	   	   						            results_flag.put("status",200);
+					   	   	   						            JSONObject base64_pdf = new JSONObject();	
+					   	   	   						            base64_pdf.put("doc","Resultados Pendientes de validación");
+					   	   	   						   			base64_pdf.put("orden_synlab", list_orden.get(j).getNro_Orden());
+					   	   	   									base64_pdf.put("year_orden", list_orden.get(j).getNro_ext() != null ? list_orden.get(j).getNro_ext() : JSONObject.NULL);
+					   	   	   									base64_pdf.put("hc", getCedula.get(0).getId_pac());
+					   	   	   									base64_pdf.put("observaciones", list_orden.get(j).getObs_ext() !=null ? list_orden.get(j).getObs_ext(): JSONObject.NULL);		   	   	   						            					   	   	   						   			
+					   	   	   						   			result_doc.put("results",base64_pdf);
+					   	   	   						   			result_doc.put("status",200);
+			   	   	   							        	    results_flag.put("response", result_doc);	   	   	   							       
 					   	   	   					        	 jsonArray.put(results_flag);
 					   	   	   				        	 }else {
-					   	   	   				        System.out.println("Aqui esta numero 2---*-*"+ ordnumero2);
+					   	   	   				        System.out.println("Aqui esta numero 2---*- ++++*"+ ordnumero2);
 		   	   	   				        		   //String base64 = avalabService.getPdfxOrden(list_orden.get(i).getNro_Orden());
 		   	   	   				        		    		String archivo;
 		   	   	   				     	   					JSONObject results_flag = new JSONObject();
 		   	   	   							        	    JSONObject result_doc = new JSONObject();
 		   	   	   							        	    JSONObject base64_pdf = new JSONObject();			   	   	   							        	   		   	   	   							        	    
-		   	   	   							        	    archivo=list_orden.get(i).getNro_Orden()+"_"+getCedula.get(0).getApellido()+"_"+getCedula.get(0).getNombre()+".pdf";		   	   	   							        	    		
+		   	   	   							        	   archivo=ordnumero2+"_"+getCedula.get(0).getApellido()+"_"+getCedula.get(0).getNombre()+".pdf";		   	   	   							        	    		
 		   	   	   			        	    				base64_pdf.put("orden_synlab", list_orden.get(j).getNro_Orden());
 		   	   	   			        	    				base64_pdf.put("year_orden", list_orden.get(j).getNro_ext());
 		   	   	   			        	    				base64_pdf.put("year_orden", list_orden.get(j).getNro_ext() != null ? list_orden.get(j).getNro_ext() : JSONObject.NULL);
@@ -1086,6 +1094,10 @@ public class webService {
 		   	   	   					        		
 					   	   	   				        	 }
 				 					   	        	}
+				 					        		}else {
+				 					        	
+				 					        			System.err.println("Verificar error en else vector vacio");
+				 					        			
 				 					        		}
 				 					        						 					        		
 				 					        	}else {
@@ -1103,8 +1115,23 @@ public class webService {
 		     	                    			
 		     	                    			
 		     	                    		}
-		     	                    		jsonResponse.put("0", jsonArray);
-			 					        	return ResponseEntity.status(HttpStatus.OK).body(jsonResponse.toString());	 
+		     	                    		System.err.println("Json array en longitud :"+jsonArray.length());
+		     	                    		if(jsonArray.length()==0) {
+		     	                    			JSONObject results_flag = new JSONObject();
+			 						            JSONObject result_doc = new JSONObject();
+			 						            result_doc.put("results","!! No existe ordenes, en ese rango de Fechas!!");
+			 						            result_doc.put("tipo",2);
+			 						            results_flag.put("results",result_doc);
+			 						            results_flag.put("status",500);
+			 					        	  //jsonResponse.put("response", results_flag);
+			 					        	 jsonArray.put(results_flag);	
+		     	                    			jsonResponse.put("0", jsonArray);
+				 					        	return ResponseEntity.status(HttpStatus.OK).body(jsonResponse.toString());	 
+		     	                    		}else {
+		     	                    			jsonResponse.put("0", jsonArray);
+				 					        	return ResponseEntity.status(HttpStatus.OK).body(jsonResponse.toString());	 
+		     	                    		}
+		     	                    	
 		     	                    		
 			     	                    	
 			     	                   	/*			          
